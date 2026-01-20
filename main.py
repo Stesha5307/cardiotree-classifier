@@ -36,3 +36,50 @@ df = util.oneHotEncoder(df, ['Race', 'Sex'])
 print(df.head())
 
 input("\nPress Enter to continue.\n")
+
+#Creates and trains Decision Tree Model
+from sklearn.model_selection import train_test_split
+X = df.drop("HeartDisease", axis=1)
+y = df["HeartDisease"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=2)
+
+from sklearn.tree import DecisionTreeClassifier
+clf = DecisionTreeClassifier(max_depth = 9, class_weight="balanced")
+clf = clf.fit(X_train, y_train)
+
+#Test the model with the testing data set and prints accuracy score
+test_predictions = clf.predict(X_test)
+
+from sklearn.metrics import accuracy_score
+test_acc = accuracy_score(y_test, test_predictions)
+print("The accuracy with the testing data set of the Decision Tree is: " +str(test_acc))
+
+#Prints the confusion matrix
+from sklearn.metrics import confusion_matrix
+
+cm = confusion_matrix(y_test, test_predictions, labels = [1, 0])
+print("The confusion matrix of the tree is: ")
+print(cm)
+
+#Test the model with the training data set and prints accuracy score
+train_predictions = clf.predict(X_train)
+
+train_acc = accuracy_score(y_train, train_predictions)
+print("The accuracy with the training data set of the Decision Tree is: " +str(train_acc))
+
+
+
+input("\nPress Enter to continue.\n")
+
+#Prints another application of Decision Trees and considerations
+
+
+
+
+#Prints a text representation of the Decision Tree
+print("\nBelow is a text representation of how the Decision Tree makes choices:\n")
+input("\nPress Enter to continue.\n")
+util.printTree(clf, X.columns)
+
+print("Most correctly classified patients came from the node with the weights [299.45, 0], and resulted in a prediction of No Heart Disease. Their features include: BMI > 27.44, Smoking < 0.5, GenHealth > 1.50, and AgeCategory < 5.50")
