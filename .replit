@@ -3,6 +3,7 @@ modules = ["python-3.10:v18-20230807-322e88b"]
 
 [nix]
 channel = "stable-23_05"
+packages = ["glibcLocales"]
 
 [unitTest]
 language = "python3"
@@ -13,3 +14,30 @@ requiredFiles = [".replit", "replit.nix"]
 [deployment]
 run = ["python3", "main.py"]
 deploymentTarget = "cloudrun"
+
+[agent]
+expertMode = true
+integrations = ["github:1.0.0"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Run ML Model"
+
+[[workflows.workflow]]
+name = "Run ML Model"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py"
+
+[workflows.workflow.metadata]
+outputType = "console"
