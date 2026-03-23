@@ -77,7 +77,6 @@ input("\nPress Enter to continue.\n")
 
 
 
-
 #Prints a text representation of the Decision Tree
 print("\nBelow is a text representation of how the Decision Tree makes choices:\n")
 input("\nPress Enter to continue.\n")
